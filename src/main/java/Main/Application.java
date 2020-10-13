@@ -1,6 +1,9 @@
 package Main;
 
 import Common.CSVreader;
+import Common.InputCSVParser;
+import Common.SearchTree;
+import Common.Tree;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 @SpringBootApplication
@@ -29,12 +33,15 @@ public class Application implements CommandLineRunner {
 
         CSVreader reader = context.getBean(CSVreader.class);
 
-        HashSet<String> res = null;
+        ArrayList<String> res = null;
         try {
             res = reader.Read();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Tree tree = InputCSVParser.Parse(res, myConfig.getColumn());
+        SearchTree searchTree = new SearchTree(tree);
 
         for (String a:res)
         {

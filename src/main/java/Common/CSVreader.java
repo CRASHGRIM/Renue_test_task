@@ -8,14 +8,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
 
 @Component
 public class CSVreader {
 
-    public HashSet<String> Read() throws IOException {
-        HashSet<String> outList = new HashSet<String>();
+    public ArrayList<String> Read() throws IOException {
+        ArrayList<String> outList = new ArrayList<String>();
 
         String fileName = "src/main/resources/airports.dat";// вытаскивать из настроек
         Path path = Paths.get(fileName);
