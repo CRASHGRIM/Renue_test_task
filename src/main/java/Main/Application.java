@@ -40,7 +40,7 @@ public class Application implements CommandLineRunner {
         {
             System.out.println(a);
         }
-        System.out.println("using index: " + myConfig.GetColumnIndex());
+        System.out.println("using index: " + myConfig.getColumn());
     }
 
 }

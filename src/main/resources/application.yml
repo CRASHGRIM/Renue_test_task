@@ -1,2 +1,8 @@
+spring:
+  profiles.active: default
+---
+spring:
+  profiles: default
+
 main:
-  ColumnIndex: 2
+  column: 2

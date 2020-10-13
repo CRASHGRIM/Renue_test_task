@@ -7,15 +7,17 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableConfigurationProperties
-@ConfigurationProperties
+@ConfigurationProperties(prefix = "main")
 public class YAMLconfig {
 
-    private int ColumnIndex;
+    private int column;
 
-    public int GetColumnIndex()
+    public int getColumn()
     {
-        return ColumnIndex;
+        return column;
     }
+
+    public void setColumn(int column) {this.column = column; }
 
 
 
