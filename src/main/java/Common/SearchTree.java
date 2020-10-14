@@ -1,6 +1,8 @@
 package Common;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Queue;
 
 public class SearchTree {
 
@@ -33,7 +35,20 @@ public class SearchTree {
         for (String str:currentTree.getEndedStrings()) {
             outList.add(str);
         }
-        // здесь нужно сделать очередь и BFS обойти все поддеревья
+        ArrayDeque<Tree> queue = new ArrayDeque<Tree>();
+        queue.add(currentTree);
+        while(!queue.isEmpty())
+        {
+            Tree queueTree = queue.pollFirst();
+            for (String str:queueTree.getEndedStrings())
+            {
+                outList.add(str);
+            }
+            for (Tree child:queueTree.getChilds())
+            {
+                queue.add(child);
+            }
+        }
         return outList;
     }
 

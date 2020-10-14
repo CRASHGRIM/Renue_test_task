@@ -11,7 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -23,11 +26,15 @@ public class Application implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(Application.class);
-        app.run();
+        app.run(args);
 
     }
 
     public void run(String... args) throws Exception {
+        for (String str: args)
+        {
+            System.out.println(str);
+        }
         ApplicationContext context =
                 new AnnotationConfigApplicationContext("Common");
 
@@ -43,11 +50,23 @@ public class Application implements CommandLineRunner {
         Tree tree = InputCSVParser.Parse(res, myConfig.getColumn());
         SearchTree searchTree = new SearchTree(tree);
 
-        for (String a:res)
-        {
-            System.out.println(a);
-        }
+        //for (String a:res)
+        //{
+        //    System.out.println(a);
+        //}
         System.out.println("using index: " + myConfig.getColumn());
+
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        String line = "";
+        while ((line = br.readLine()) != null)
+        {
+            ArrayList<String> foundStr = searchTree.Search(line);
+            for (String str: foundStr)
+            {
+                System.out.println(str);
+            }
+        }
     }
 
 }

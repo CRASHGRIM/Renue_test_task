@@ -12,6 +12,7 @@ public class Tree {
     Tree(char letter)
     {
         endedStrings = new ArrayList<String>();
+        childs = new ArrayList<Tree>();
         this.letter = letter;
     }
 
