@@ -61,11 +61,14 @@ public class Application implements CommandLineRunner {
         String line = "";
         while ((line = br.readLine()) != null)
         {
+            long time = System.currentTimeMillis();
             ArrayList<String> foundStr = searchTree.Search(line);
             for (String str: foundStr)
             {
                 System.out.println(str);
             }
+            System.out.println(foundStr.size());
+            System.out.println(System.currentTimeMillis() - time);
         }
     }
 

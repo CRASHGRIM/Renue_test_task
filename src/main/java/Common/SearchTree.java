@@ -56,16 +56,17 @@ public class SearchTree {
         Scanner scanner = new Scanner(path);
 
         scanner.useDelimiter(System.getProperty("line.separator"));// здесь мы вытаскиваем из файла строки по индексам
-        int counter = 0;
         Collections.sort(indexList);
+        int counter = 0;
         for (Integer index: indexList)
         {
-            for (int i=counter;i<index-1;i++)
+            while (counter<index)
             {
                 scanner.nextLine();
+                counter++;
             }
             outList.add(scanner.nextLine());
-            counter = index;
+            counter++;
 
         }
 

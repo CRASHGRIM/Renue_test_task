@@ -25,7 +25,7 @@ public class CSVreader {
 
         scanner.useDelimiter(System.getProperty("line.separator"));
         int counter = 0;
-        while(scanner.hasNext() && counter<100){
+        while(scanner.hasNext()){
             String readStr = scanner.nextLine();
             readStr = readStr.replace("\"", "");
             outList.add(readStr);

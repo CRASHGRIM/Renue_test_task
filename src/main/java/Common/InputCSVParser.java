@@ -18,15 +18,15 @@ public class InputCSVParser {
         Scanner scanner = new Scanner(path);
 
         scanner.useDelimiter(System.getProperty("line.separator"));
-        int counter = 0;
-        while(scanner.hasNext() && counter<100){
+        int counter = -1;
+        while(scanner.hasNext()){
             String readStr = scanner.nextLine();
+            counter++;
             readStr = readStr.replace("\"", "");// убираем кавычки у названий, возможно не стоит делать
 
 
             Tree currentTree = mainTree;
             String[] splitted = readStr.split(",");
-            int index = Integer.parseInt(splitted[0]);
             String searchStr = splitted[column];
             for (int i=0;i<searchStr.length();i++)
             {
@@ -46,10 +46,7 @@ public class InputCSVParser {
                     currentTree = newTree;
                 }
             }
-            currentTree.AddEndedString(index);  // храним только индексы строк
-
-
-            counter++;
+            currentTree.AddEndedString(counter);  // храним только индексы строк
         }
         scanner.close();
 
