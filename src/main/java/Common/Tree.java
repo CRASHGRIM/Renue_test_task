@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Tree {
 
-    private ArrayList<String> endedStrings;
+    private ArrayList<Integer> endedStrings;
     private ArrayList<Tree> childs;
     private char letter;
 
     Tree(char letter)
     {
-        endedStrings = new ArrayList<String>();
+        endedStrings = new ArrayList<Integer>();
         childs = new ArrayList<Tree>();
         this.letter = letter;
     }
 
-    public ArrayList<String> getEndedStrings()
+    public ArrayList<Integer> getEndedStrings()
     {
         return endedStrings;
     }
@@ -36,7 +36,7 @@ public class Tree {
         this.childs.add(tree);
     }
 
-    public void AddEndedString(String index)
+    public void AddEndedString(Integer index)
     {
         endedStrings.add(index);
     }
