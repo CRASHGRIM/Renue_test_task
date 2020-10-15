@@ -6,3 +6,4 @@ spring:
 
 main:
   column: 2
+  mode: s

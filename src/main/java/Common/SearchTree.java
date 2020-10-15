@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
-public class SearchTree {
+public class SearchTree implements Isearchable {
 
     private Tree tree;
 
@@ -15,7 +15,7 @@ public class SearchTree {
         this.tree = tree;
     }
 
-    public ArrayList<String> Search(String prefix) throws IOException {
+    public ArrayList<Integer> Search(String prefix){
         ArrayList<Integer> indexList = new ArrayList<>();
         ArrayList<String> outList = new ArrayList<>();
         Tree currentTree = tree;
@@ -31,7 +31,7 @@ public class SearchTree {
                 }
             }
             if (!foundFlag)
-                return new ArrayList<String>();// не смогли спуститься дальше по дереву, такого префикса нет
+                return new ArrayList<Integer>();// не смогли спуститься дальше по дереву, такого префикса нет
         }
         for (Integer index:currentTree.getEndedStrings()) {
             indexList.add(index);
@@ -51,26 +51,7 @@ public class SearchTree {
             }
         }
 
-        String fileName = "src/main/resources/airports.dat";// вытаскивать из настроек
-        Path path = Paths.get(fileName);
-        Scanner scanner = new Scanner(path);
-
-        scanner.useDelimiter(System.getProperty("line.separator"));// здесь мы вытаскиваем из файла строки по индексам
-        Collections.sort(indexList);
-        int counter = 0;
-        for (Integer index: indexList)
-        {
-            while (counter<index)
-            {
-                scanner.nextLine();
-                counter++;
-            }
-            outList.add(scanner.nextLine());
-            counter++;
-
-        }
-
-        return outList;
+        return indexList;
     }
 
 }
