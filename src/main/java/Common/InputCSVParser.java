@@ -10,11 +10,11 @@ import java.util.Scanner;
 
 public class InputCSVParser {
 
-    public static Tree ParseToTree(int column) throws IOException// думаю не стоит считывать все в память, надо читать прям здесь
+    public static Tree ParseToTree(int column, String filename) throws IOException
     {
         Tree mainTree = new Tree('f');
 
-        String fileName = "src/main/resources/airports.dat";// вытаскивать из настроек
+        String fileName = filename;
         Path path = Paths.get(fileName);
 
         Scanner scanner = new Scanner(path);
@@ -61,10 +61,10 @@ public class InputCSVParser {
         return mainTree;
     }
 
-    public static ArrayList<String> GetLines(ArrayList<Integer> indexList) throws IOException
+    public static ArrayList<String> GetLines(ArrayList<Integer> indexList, String filename) throws IOException
     {
         ArrayList<String> outList = new ArrayList<>();
-        String fileName = "src/main/resources/airports.dat";// вытаскивать из настроек
+        String fileName = filename;
         Path path = Paths.get(fileName);
         Scanner scanner = new Scanner(path);
 
@@ -83,14 +83,18 @@ public class InputCSVParser {
 
         }
 
+        scanner.close();
+
         return outList;
     }
 
-    public static HashMap<String, ArrayList<Integer>> ParseToDictionary(int column) throws IOException {
+    public static HashMap<String, ArrayList<Integer>> ParseToDictionary(int column, String filename) throws IOException {
 
         HashMap<String, ArrayList<Integer>> outDict = new HashMap<String, ArrayList<Integer>>();
-        String fileName = "src/main/resources/airports.dat";// вытаскивать из настроек
+        String fileName = filename;
         Path path = Paths.get(fileName);
+
+        HashMap<Integer, String> lineIndexToColumn = new HashMap<>();
 
         Scanner scanner = new Scanner(path);
 
@@ -102,6 +106,7 @@ public class InputCSVParser {
             readStr = readStr.replace("\"", "");// убираем кавычки у названий, возможно не стоит делать
             String[] splitted = readStr.split(",");
             String searchStr = splitted[column];
+            lineIndexToColumn.put(counter, searchStr);
             if (searchStr.length()==0)
             {
                 if (!outDict.containsKey(""))
@@ -117,6 +122,39 @@ public class InputCSVParser {
                 outDict.get(prefix).add(counter);
             }
         }
+        scanner.close();
+        //далее в каждом префиксе сортируем строки по колонке
+
+        for (String key:outDict.keySet())
+        {
+            ArrayList<Integer> original = outDict.get(key);
+
+
+            HashMap<String, Integer> linesByColumn = new HashMap<>();
+            ArrayList<String> cuttedLines = new ArrayList<String>();
+
+            for (int i=0;i<original.size();i++)
+            {
+                Integer index = original.get(i);
+                linesByColumn.put(lineIndexToColumn.get(index), index);
+                cuttedLines.add(lineIndexToColumn.get(index));
+            }
+            Collections.sort(cuttedLines);
+            ArrayList<Integer> sortedOriginal = new ArrayList<Integer>();
+
+            for (int i=0;i<original.size();i++)
+            {
+                sortedOriginal.add(linesByColumn.get(cuttedLines.get(i)));
+            }
+
+
+
+
+            outDict.replace(key, sortedOriginal);
+
+        }
+
+
 
         return outDict;
     }

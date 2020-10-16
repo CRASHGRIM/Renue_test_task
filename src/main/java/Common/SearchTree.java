@@ -17,7 +17,6 @@ public class SearchTree implements Isearchable {
 
     public ArrayList<Integer> Search(String prefix){
         ArrayList<Integer> indexList = new ArrayList<>();
-        ArrayList<String> outList = new ArrayList<>();
         Tree currentTree = tree;
         for(int i=0; i<prefix.length();i++)
         {

@@ -7,3 +7,4 @@ spring:
 main:
   column: 2
   mode: s
+  filename: src/main/resources/airports.dat
