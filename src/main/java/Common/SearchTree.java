@@ -33,21 +33,23 @@ public class SearchTree implements Isearchable {
                 return new ArrayList<Integer>();// не смогли спуститься дальше по дереву, такого префикса нет
         }
         for (Integer index:currentTree.getEndedStrings()) {
-            indexList.add(index);
+            indexList.add(index); // здесь те строки которые равны искомому префиксу, они первые лексикографически, сортить не надо
         }
-        ArrayDeque<Tree> queue = new ArrayDeque<Tree>();
-        queue.add(currentTree);
-        while(!queue.isEmpty())
+        Stack<Tree> stack = new Stack<>();
+        stack.add(currentTree);
+        //ArrayDeque<Tree> queue = new ArrayDeque<Tree>();
+        //queue.add(currentTree);
+        while (!stack.empty())
         {
-            Tree queueTree = queue.pollFirst();
-            for (Integer index:queueTree.getEndedStrings())
+            Tree popTree = stack.pop();
+            for (Integer index:popTree.getEndedStrings())
             {
                 indexList.add(index);
             }
-            for (Tree child:queueTree.getChilds())
-            {
-                queue.add(child);
-            }
+            ArrayList<Tree> childs = popTree.getChilds();
+            Collections.sort(childs, (s1, s2) -> Character.compare(s2.getLetter(), s1.getLetter()));//  в обратном порядке добавляем
+            for (int i=0; i<childs.size();i++)
+                stack.push(childs.get(i));
         }
 
         return indexList;

@@ -115,6 +115,8 @@ public class Application implements CommandLineRunner {
 
         Isearchable indexer;
 
+        //args[0]="m";
+
         if (args[0]=="m")// более memory-эффективный вариант
         {
             System.out.println("mode m");
@@ -134,7 +136,7 @@ public class Application implements CommandLineRunner {
         while ((line = br.readLine()) != null)
         {
             long time = System.currentTimeMillis();
-            ArrayList<Integer> foundIndexes = indexer.Search(line);
+            ArrayList<Integer> foundIndexes = indexer.Search(line);//в get lines надо запомнить порядок, чтоб не сортилось
             ArrayList<String> foundStr = InputCSVParser.GetLines(foundIndexes, filename);
             long searchTime = System.currentTimeMillis() - time;
             for (String str: foundStr)
@@ -143,7 +145,7 @@ public class Application implements CommandLineRunner {
             }
             System.out.println("Количество строк "+foundStr.size());// посортить ответы когда поиск по словарю (не работает)
             System.out.println("Затраченное время "+searchTime);// проверить поиск, при Forbes в дереве находит пустую строку
-            System.out.println("Введите строку");// в дереве надо тоже посортить, делать обход в глубину по алфавиту
+            System.out.println("Введите строку");
             // когда пишешь S все падает
         }
     }

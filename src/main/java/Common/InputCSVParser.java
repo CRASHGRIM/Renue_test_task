@@ -64,12 +64,14 @@ public class InputCSVParser {
     public static ArrayList<String> GetLines(ArrayList<Integer> indexList, String filename) throws IOException
     {
         ArrayList<String> outList = new ArrayList<>();
+        HashMap<Integer, String> foundStrings = new HashMap<>();
         String fileName = filename;
         Path path = Paths.get(fileName);
         Scanner scanner = new Scanner(path);
 
         scanner.useDelimiter(System.getProperty("line.separator"));// здесь мы вытаскиваем из файла строки по индексам
-        Collections.sort(indexList);
+        ArrayList<Integer> defaultorderindexList = new ArrayList<>(indexList);
+        Collections.sort(indexList);// сортим исходный список чтоб вытащить все строки за один проход, но запоминаем стары порядок потому что там отсортировано
         int counter = 0;
         for (Integer index: indexList)
         {
@@ -78,12 +80,18 @@ public class InputCSVParser {
                 scanner.nextLine();
                 counter++;
             }
-            outList.add(scanner.nextLine());
+            String line = scanner.nextLine();
+            foundStrings.put(counter, line);
             counter++;
 
         }
 
         scanner.close();
+
+        for (int i=0; i<defaultorderindexList.size();i++)
+        {
+            outList.add(foundStrings.get(defaultorderindexList.get(i))); // добавляем найденные строки в том порядке который был в аргументах метода
+        }
 
         return outList;
     }
@@ -114,7 +122,7 @@ public class InputCSVParser {
                 outDict.get("").add(counter);
                 continue;
             }
-            for(int i=0;i<=searchStr.length();i++)
+            for(int i=1;i<=searchStr.length();i++)
             {
                 String prefix = searchStr.substring(0, i);
                 if (!outDict.containsKey(prefix))
@@ -136,7 +144,7 @@ public class InputCSVParser {
             for (int i=0;i<original.size();i++)
             {
                 Integer index = original.get(i);
-                linesByColumn.put(lineIndexToColumn.get(index), index);
+                linesByColumn.put(lineIndexToColumn.get(index), index);// здесь происходит баг когда много одинаковых строк (пустых) и они ссылаются на один индекс
                 cuttedLines.add(lineIndexToColumn.get(index));
             }
             Collections.sort(cuttedLines);
