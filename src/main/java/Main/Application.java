@@ -5,12 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.BufferedReader;
-import java.io.Console;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -57,7 +53,7 @@ public class Application implements CommandLineRunner {
 
         if (mode!=null)
         {
-            if (mode!="s" || mode!="m")
+            if (!mode.equals("s") && !mode.equals("m"))
             {
                 System.out.println("Wrong mode");
                 formatter.printHelp("utility-name", options);
@@ -115,9 +111,9 @@ public class Application implements CommandLineRunner {
 
         Isearchable indexer;
 
-        args[0]="m";
+        //args[0]="s";
 
-        if (args[0]=="m")// более memory-эффективный вариант
+        if (args[0].equals("m"))// более memory-эффективный вариант
         {
             System.out.println("mode m");
             Tree tree = InputCSVParser.ParseToTree(indexColumn, filename);
@@ -144,7 +140,7 @@ public class Application implements CommandLineRunner {
                 System.out.println(str);
             }
             System.out.println("Количество строк "+foundStr.size());
-            System.out.println("Затраченное время "+searchTime);//не сортится в словаре
+            System.out.println(String.format("Затраченное время %d ms", searchTime));
             System.out.println("Введите строку");
         }
     }

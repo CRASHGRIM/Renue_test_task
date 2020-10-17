@@ -7,7 +7,7 @@ public class Tree {
 
     private ArrayList<Integer> endedStrings;
     private ArrayList<Tree> childs;
-    private char letter;
+    private final char letter;
 
     Tree(char letter)
     {

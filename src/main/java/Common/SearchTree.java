@@ -30,12 +30,10 @@ public class SearchTree implements Isearchable {
                 }
             }
             if (!foundFlag)
-                return new ArrayList<Integer>();// не смогли спуститься дальше по дереву, такого префикса нет
+                return new ArrayList<>();// не смогли спуститься дальше по дереву, такого префикса нет
         }
         Stack<Tree> stack = new Stack<>();
         stack.add(currentTree);
-        //ArrayDeque<Tree> queue = new ArrayDeque<Tree>();
-        //queue.add(currentTree);
         while (!stack.empty())
         {
             Tree popTree = stack.pop();

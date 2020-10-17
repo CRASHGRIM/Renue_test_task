@@ -7,11 +7,10 @@ import java.util.*;
 
 public class InputCSVParser {
 
-    public static Tree ParseToTree(int column, String filename) throws IOException
+    public static Tree ParseToTree(int column, String fileName) throws IOException
     {
         Tree mainTree = new Tree('f');
 
-        String fileName = filename;
         Path path = Paths.get(fileName);
 
         Scanner scanner = new Scanner(path);
@@ -58,11 +57,10 @@ public class InputCSVParser {
         return mainTree;
     }
 
-    public static ArrayList<String> GetLines(ArrayList<Integer> indexList, String filename) throws IOException
+    public static ArrayList<String> GetLines(ArrayList<Integer> indexList, String fileName) throws IOException
     {
         ArrayList<String> outList = new ArrayList<>();
         HashMap<Integer, String> foundStrings = new HashMap<>();
-        String fileName = filename;
         Path path = Paths.get(fileName);
         Scanner scanner = new Scanner(path);
 
@@ -93,10 +91,9 @@ public class InputCSVParser {
         return outList;
     }
 
-    public static HashMap<String, ArrayList<Integer>> ParseToDictionary(int column, String filename) throws IOException {
+    public static HashMap<String, ArrayList<Integer>> ParseToDictionary(int column, String fileName) throws IOException {
 
         HashMap<String, ArrayList<Integer>> outDict = new HashMap<String, ArrayList<Integer>>();
-        String fileName = filename;
         Path path = Paths.get(fileName);
 
         HashMap<Integer, String> lineIndexToColumn = new HashMap<>();

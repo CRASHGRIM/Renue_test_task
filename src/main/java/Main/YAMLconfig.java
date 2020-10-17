@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
 @Configuration
 @EnableConfigurationProperties
 @ConfigurationProperties(prefix = "main")
-//@PropertySource(value = "application.yml", factory = YamlPropertyLoaderFactory.class)
+@PropertySource(value = "application.yml", factory = YamlPropertyLoaderFactory.class)
 public class YAMLconfig {
 
     private int column;
