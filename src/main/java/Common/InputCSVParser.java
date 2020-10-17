@@ -3,10 +3,7 @@ package Common;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 
 public class InputCSVParser {
 
@@ -138,27 +135,34 @@ public class InputCSVParser {
             ArrayList<Integer> original = outDict.get(key);
 
 
-            HashMap<String, Integer> linesByColumn = new HashMap<>();
-            ArrayList<String> cuttedLines = new ArrayList<String>();
+            HashMap<String, ArrayList<Integer>> searchstrToLineIndexes = new HashMap<>();
+            HashSet<String> searchStrings = new HashSet<String>();
 
             for (int i=0;i<original.size();i++)
             {
                 Integer index = original.get(i);
-                linesByColumn.put(lineIndexToColumn.get(index), index);// здесь происходит баг когда много одинаковых строк (пустых) и они ссылаются на один индекс
-                cuttedLines.add(lineIndexToColumn.get(index));
+                String searchstr = lineIndexToColumn.get(index);
+                if (!searchstrToLineIndexes.containsKey(searchstr))
+                    searchstrToLineIndexes.put(searchstr, new ArrayList<>());
+                searchstrToLineIndexes.get(searchstr).add(index); // запоминаем у каких подстрок какие индексы чтоб после сортировки восстановить индексы
+                searchStrings.add(lineIndexToColumn.get(index)); // собираем хэшсет который потом будем сортить
             }
-            Collections.sort(cuttedLines);
-            ArrayList<Integer> sortedOriginal = new ArrayList<Integer>();
+            ArrayList<String> sortedSearchstrings = new ArrayList<>(searchStrings);
+            Collections.sort(sortedSearchstrings); // ортируем подстроки
+            ArrayList<Integer> sortedOriginal = new ArrayList<>();
 
-            for (int i=0;i<original.size();i++)
+            for (int i=0;i<sortedSearchstrings.size();i++)
             {
-                sortedOriginal.add(linesByColumn.get(cuttedLines.get(i)));
+                for (Integer index:searchstrToLineIndexes.get(sortedSearchstrings.get(i)))
+                {
+                    sortedOriginal.add(index); // добавляем в список все индексы которые соответствуют данной подстроке
+                }
             }
 
 
 
 
-            outDict.replace(key, sortedOriginal);
+            outDict.replace(key, sortedOriginal);// заменяем несортированный список сортированным
 
         }
 

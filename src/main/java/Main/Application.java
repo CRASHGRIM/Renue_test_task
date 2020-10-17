@@ -136,17 +136,16 @@ public class Application implements CommandLineRunner {
         while ((line = br.readLine()) != null)
         {
             long time = System.currentTimeMillis();
-            ArrayList<Integer> foundIndexes = indexer.Search(line);//в get lines надо запомнить порядок, чтоб не сортилось
+            ArrayList<Integer> foundIndexes = indexer.Search(line);
             ArrayList<String> foundStr = InputCSVParser.GetLines(foundIndexes, filename);
             long searchTime = System.currentTimeMillis() - time;
             for (String str: foundStr)
             {
                 System.out.println(str);
             }
-            System.out.println("Количество строк "+foundStr.size());// посортить ответы когда поиск по словарю (не работает)
+            System.out.println("Количество строк "+foundStr.size());
             System.out.println("Затраченное время "+searchTime);// проверить поиск, при Forbes в дереве находит пустую строку
             System.out.println("Введите строку");
-            // когда пишешь S все падает
         }
     }
 
