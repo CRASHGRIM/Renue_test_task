@@ -32,9 +32,6 @@ public class SearchTree implements Isearchable {
             if (!foundFlag)
                 return new ArrayList<Integer>();// не смогли спуститься дальше по дереву, такого префикса нет
         }
-        for (Integer index:currentTree.getEndedStrings()) {
-            indexList.add(index); // здесь те строки которые равны искомому префиксу, они первые лексикографически, сортить не надо
-        }
         Stack<Tree> stack = new Stack<>();
         stack.add(currentTree);
         //ArrayDeque<Tree> queue = new ArrayDeque<Tree>();

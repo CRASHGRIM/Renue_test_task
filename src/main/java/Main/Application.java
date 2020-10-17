@@ -115,7 +115,7 @@ public class Application implements CommandLineRunner {
 
         Isearchable indexer;
 
-        //args[0]="m";
+        args[0]="m";
 
         if (args[0]=="m")// более memory-эффективный вариант
         {
@@ -144,7 +144,7 @@ public class Application implements CommandLineRunner {
                 System.out.println(str);
             }
             System.out.println("Количество строк "+foundStr.size());
-            System.out.println("Затраченное время "+searchTime);// проверить поиск, при Forbes в дереве находит пустую строку
+            System.out.println("Затраченное время "+searchTime);//не сортится в словаре
             System.out.println("Введите строку");
         }
     }
