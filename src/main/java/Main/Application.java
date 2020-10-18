@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -99,6 +100,18 @@ public class Application implements CommandLineRunner {
         String filename = ymlConfig.getFilename();
         if (filename==null)
             filename = "airports.dat";
+
+        File file = new File(filename);
+
+        if (!file.exists())
+        {
+            IOobj.WriteLine(String.format("файл %s отсутствует", filename));
+            IOobj.Close();
+            return;
+        }
+
+
+
         int indexColumn = ymlConfig.getColumn();
 
         IOobj.WriteLine("filename: "+filename);

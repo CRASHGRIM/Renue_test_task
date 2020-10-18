@@ -25,6 +25,8 @@ public class InputCSVParser {
 
             Tree currentTree = mainTree;
             String[] splitted = readStr.split(",");
+            if (splitted.length<column+1)  // возможно стоит падать с ошибкой
+                continue;
             String searchStr = splitted[column];
             if (searchStr.length()==0)
             {
@@ -107,6 +109,8 @@ public class InputCSVParser {
             counter++;
             readStr = readStr.replace("\"", "");// убираем кавычки у названий, возможно не стоит делать
             String[] splitted = readStr.split(",");
+            if (splitted.length<column+1)  // возможно стоит падать с ошибкой
+                continue;
             String searchStr = splitted[column];
             lineIndexToColumn.put(counter, searchStr);
             if (searchStr.length()==0)

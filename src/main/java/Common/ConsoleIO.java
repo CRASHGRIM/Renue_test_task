@@ -26,4 +26,8 @@ public class ConsoleIO implements IinOut {
         return br.readLine();
     }
 
+    public void Close() throws IOException {
+        br.close();
+    }
+
 }
