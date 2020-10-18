@@ -76,7 +76,7 @@ public class Application implements CommandLineRunner {
             {
                 System.out.println("Wrong index column");
                 formatter.printHelp("utility-name", options);
-                System. exit(1);
+                System.exit(1);
             }
         }
         else
@@ -114,13 +114,13 @@ public class Application implements CommandLineRunner {
 
         int indexColumn = ymlConfig.getColumn();
 
-        IOobj.WriteLine("filename: "+filename);
-        IOobj.WriteLine("Column: "+indexColumn);
-
         if (args[1].length()!=0)
         {
             indexColumn = Integer.parseInt(args[1]);// ошибки не будет тк в main проверили что парсится
         }
+
+        IOobj.WriteLine("filename: "+filename);
+        IOobj.WriteLine("Column: "+indexColumn);
 
         Isearchable indexer;
 
@@ -150,7 +150,7 @@ public class Application implements CommandLineRunner {
                 IOobj.WriteLine(str);
             }
             IOobj.WriteLine("Количество строк "+foundStr.size());
-            IOobj.WriteLine(String.format("Затраченное время %d ms", searchTime));
+            IOobj.WriteLine(String.format("Затраченное время %d мс", searchTime));
             IOobj.WriteLine("Введите строку");
         }
     }
