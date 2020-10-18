@@ -6,18 +6,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.cli.*;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
 
     @Autowired
-    private YAMLconfig myConfig;
+    private YAMLconfig ymlConfig;
 
     public static void main(String[] args) {
 
@@ -90,23 +90,23 @@ public class Application implements CommandLineRunner {
     }
 
     public void run(String... args) throws Exception {
-        for (String str: args)
-        {
-            System.out.println(str);
-        }
 
+        ApplicationContext context =
+                new AnnotationConfigApplicationContext("Common");
 
-        String filename = myConfig.getFilename();
+        IinOut IOobj = context.getBean(IinOut.class);
+
+        String filename = ymlConfig.getFilename();
         if (filename==null)
-            filename = "airports.dat";// думаю не стоит подсовывать какое то значение а лучше свалиться с ошибкой
-        int indexColumn = myConfig.getColumn();
+            filename = "airports.dat";
+        int indexColumn = ymlConfig.getColumn();
 
-        System.out.println("filename: "+filename);
-        System.out.println("Column: "+indexColumn);
+        IOobj.WriteLine("filename: "+filename);
+        IOobj.WriteLine("Column: "+indexColumn);
 
         if (args[1].length()!=0)
         {
-            indexColumn = Integer.parseInt(args[1]);// проверили что парсится в main
+            indexColumn = Integer.parseInt(args[1]);// ошибки не будет тк в main проверили что парсится
         }
 
         Isearchable indexer;
@@ -115,21 +115,18 @@ public class Application implements CommandLineRunner {
 
         if (args[0].equals("m"))// более memory-эффективный вариант
         {
-            System.out.println("mode m");
+            IOobj.WriteLine("mode m");
             Tree tree = InputCSVParser.ParseToTree(indexColumn, filename);
             indexer = new SearchTree(tree);
         }
         else // аргумента нет или 's'
         {
-            System.out.println("mode s");
+            IOobj.WriteLine("mode s");
             HashMap<String, ArrayList<Integer>> dict = InputCSVParser.ParseToDictionary(indexColumn, filename);
             indexer = new SearchDictionary(dict);
         }
-
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
         String line = "";
-        while ((line = br.readLine()) != null)
+        while ((line = IOobj.ReadLine()) != null)
         {
             long time = System.currentTimeMillis();
             ArrayList<Integer> foundIndexes = indexer.Search(line);
@@ -137,11 +134,11 @@ public class Application implements CommandLineRunner {
             long searchTime = System.currentTimeMillis() - time;
             for (String str: foundStr)
             {
-                System.out.println(str);
+                IOobj.WriteLine(str);
             }
-            System.out.println("Количество строк "+foundStr.size());
-            System.out.println(String.format("Затраченное время %d ms", searchTime));
-            System.out.println("Введите строку");
+            IOobj.WriteLine("Количество строк "+foundStr.size());
+            IOobj.WriteLine(String.format("Затраченное время %d ms", searchTime));
+            IOobj.WriteLine("Введите строку");
         }
     }
 
